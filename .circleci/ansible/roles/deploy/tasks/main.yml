@@ -2,7 +2,7 @@
 -   name: "Unarchive Backend Files"
     unarchive:
         src: artifact.tar.gz
-        dest: /home/ubuntu/
+        dest: /home/ubuntu/backend/
 
 -   name: "Executing Node"
     shell: |
