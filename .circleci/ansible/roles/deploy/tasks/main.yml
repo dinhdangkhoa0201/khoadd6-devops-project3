@@ -1,14 +1,26 @@
 ---
+-   name: "Create Directory"
+    file:
+        path: /home/ubuntu/backend
+        state: directory
+
 -   name: "Unarchive Backend Files"
     unarchive:
         src: artifact.tar.gz
         dest: /home/ubuntu/backend/
 
+-   name: "Build"
+    become: true
+    shell: |
+        cd /home/ubuntu/backend
+        npm install
+        npm build
+
 -   name: "Executing Node"
     shell: |
         cd /home/ubuntu/backend/dist
         pm2 stop default
-        pm2 start npm --name 'khoadd6-devops-backend' -- start
+        pm2 start npm --name backend -- start
     register: execute_node_server
 
 -   name: "Print Message"
