@@ -9,6 +9,11 @@
         src: artifact.tar.gz
         dest: /home/ubuntu/backend/
 
+- name: "Copy backend dist files web server"
+  copy:
+      src: /root/project/artifact.tar.gz
+      dest: /home/ubuntu/backend/artifact.tar.gz
+
 -   name: "Build"
     become: true
     shell: |
