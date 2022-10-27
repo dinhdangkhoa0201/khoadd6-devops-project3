@@ -9,21 +9,16 @@
         src: artifact.tar.gz
         dest: /home/ubuntu/backend/
 
-- name: "Copy backend dist files web server"
-  copy:
-      src: /root/project/artifact.tar.gz
-      dest: /home/ubuntu/backend/artifact.tar.gz
-
 -   name: "Build"
     become: true
     shell: |
         cd /home/ubuntu/backend
         npm install
-        npm build
+        npm run build
 
 -   name: "Executing Node"
     shell: |
-        cd /home/ubuntu/backend/dist
+        cd /home/ubuntu/backend
         pm2 stop default
         pm2 start npm --name backend -- start
     register: execute_node_server
