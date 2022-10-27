@@ -1,0 +1,16 @@
+---
+-   name: "Unarchive Backend Files"
+    unarchive:
+        src: artifact.tar.gz
+        dest: /home/ubuntu/
+
+-   name: "Executing Node"
+    shell: |
+        cd /home/ubuntu/backend/dist
+        pm2 stop default
+        pm2 start npm --name 'khoadd6-devops-backend' -- start
+    register: execute_node_server
+
+-   name: "Print Message"
+    debug:
+        msg: "{{ execute_node_server.stdout_lines }}"
