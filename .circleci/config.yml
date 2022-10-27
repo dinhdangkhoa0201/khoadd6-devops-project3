@@ -213,10 +213,10 @@ jobs:
             -   run:
                     name: Install dependencies
                     command: |
-                        apk add --update tar
-                        apk add --update gzip
-                        apk add --update ansible
-                        apk add python curl
+                        apt install --update tar
+                        apt install --update gzip
+                        apt install --update ansible
+                        apt install python curl
                         curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
                         unzip awscli-bundle.zip
                         ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
@@ -266,12 +266,12 @@ jobs:
             -   run:
                     name: Install dependencies
                     command: |
-                        apk add --update tar
-                        apk add --update gzip
-                        apk add --update ansible
-                        apk add python curl
-                        apk add --update nodejs
-                        apk add --update npm
+                        apt install --update tar
+                        apt install --update gzip
+                        apt install --update ansible
+                        apt install python curl
+                        apt install --update nodejs
+                        apt install --update npm
                         curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
                         unzip awscli-bundle.zip
                         ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
@@ -312,12 +312,12 @@ jobs:
             -   run:
                     name: Install dependencies
                     command: |
-                        apk add --update tar
-                        apk add --update gzip
-                        apk add --update ansible
-                        apk add python curl
-                        apk add --update nodejs
-                        apk add --update npm
+                        apt install --update tar
+                        apt install --update gzip
+                        apt install --update ansible
+                        apt install python curl
+                        apt install --update nodejs
+                        apt install --update npm
                         curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
                         unzip awscli-bundle.zip
                         ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
@@ -364,10 +364,10 @@ jobs:
             -   run:
                     name: Install dependencies
                     command: |
-                        apk add --update tar
-                        apk add --update gzip
-                        apk add --update ansible
-                        apk add python curl
+                        apt install --update tar
+                        apt install --update gzip
+                        apt install --update ansible
+                        apt install python curl
                         curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
                         unzip awscli-bundle.zip
                         ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
