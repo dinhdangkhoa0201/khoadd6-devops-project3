@@ -467,30 +467,33 @@ jobs:
             -   image: amazon/aws-cli
         steps:
             # Checkout code from git
+            - checkout
+            -   attach_workspace:
+                    at: ~/
             -   run:
                     name: Install dependencies
                     command: |
                         yum install -y tar gzip
             -   run:
-                    name: Get Old Workflow ID
-                    command: |
-                        aws cloudformation list-exports \
-                        --query "Exports[?Name==\`WorkflowID\`].Value" \
-                        --no-paginate --output text >> ~/project/oldWorkflowID.txt
-                        cat ~/project/oldWorkflowID.txt
-            -   run:
                     name: Update cloudfront distribution
                     command: |
+                        export oldWorkflowId=$(aws cloudformation list-exports \
+                           --query "Exports[?Name==\`WorkflowID\`].Value" \
+                           --no-paginate --output text)
+                        echo $oldWorkflowId >> ~/oldWorkflowId.txt
+                        cat ~/$oldWorkflowId.txt
+
                         aws cloudformation deploy \
-                        --stack-name cloud-front-update-stack \
+                        --stack-name cloud-front-update-stack-${oldWorkflowId} \
                         --template-file .circleci/files/cloudfront.yml \
                         --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}"
-                        echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID}"
-                        cat ~/project/oldWorkflowID.txt
+
+                        echo Old Workflow Id: "${oldWorkflowId}"
+                        echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
             -   persist_to_workspace:
                     root: ~/
                     paths:
-                        - project/oldWorkflowID.txt
+                        - oldWorkflowID.txt
             # Here's where you will add some code to rollback on failure
             -   destroy-environment:
                     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
