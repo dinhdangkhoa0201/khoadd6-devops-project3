@@ -180,7 +180,7 @@ jobs:
                           --stack-name "khoadd6-devops-backend-stack-${CIRCLE_WORKFLOW_ID:0:7}" \
                           --template-file .circleci/files/backend.yml \
                           --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-                          --tags project=khoadd6-devops-backend-${CIRCLE_WORKFLOW_ID:0:7}
+                          --tags project=khoadd6-devops-project3
 
             -   run:
                     name: Ensure front-end infrastructure exist
@@ -189,7 +189,7 @@ jobs:
                           --stack-name "khoadd6-devops-frontend-stack-${CIRCLE_WORKFLOW_ID:0:7}" \
                           --template-file .circleci/files/frontend.yml \
                           --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-                          --tags project=khoadd6-devops-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+                          --tags project=khoadd6-devops-project3
 
             -   run:
                     name: Add back-end ip to ansible inventory
@@ -484,7 +484,8 @@ jobs:
                         aws cloudformation deploy \
                         --stack-name cloud-front-update-stack-${oldWorkflowId} \
                         --template-file .circleci/files/cloudfront.yml \
-                        --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}"
+                        --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+                        --tags project=khoadd6-devops-project3
 
                         echo Old Workflow Id: "${oldWorkflowId}"
                         echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
