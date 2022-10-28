@@ -482,12 +482,12 @@ jobs:
                         cat ~/project/oldWorkflowId.txt
 
                         aws cloudformation deploy \
-                        --stack-name cloud-front-update-stack-${oldWorkflowId} \
+                        --stack-name cloud-front-update-stack-$oldWorkflowId \
                         --template-file .circleci/files/cloudfront.yml \
                         --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
                         --tags project=khoadd6-devops-project3
 
-                        echo Old Workflow Id: "${oldWorkflowId}"
+                        echo Old Workflow Id: "$oldWorkflowId"
                         echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
             -   persist_to_workspace:
                     root: ~/
