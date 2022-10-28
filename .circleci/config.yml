@@ -382,9 +382,9 @@ jobs:
             -   run:
                     name: Zip Backend
                     command: |
-                        echo "---------- << Zip Backend Start >> ----------"
+                        echo "---------- Zip Backend Start ----------"
                         tar -C backend -czvf artifact.tar.gz .
-                        echo "---------- << Zip Backend End >> ----------"
+                        echo "---------- Zip Backend End ----------"
             -   run:
                     name: Deploy Backend
                     command: |
