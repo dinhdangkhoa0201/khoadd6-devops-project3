@@ -9,11 +9,16 @@
         src: artifact.tar.gz
         dest: /home/ubuntu/backend/
 
--   name: "Build"
+-   name: "Install Dependencies"
     become: true
     shell: |
         cd /home/ubuntu/backend
         npm install
+
+-   name: "Build"
+    become: true
+    shell: |
+        cd /home/ubuntu/backend
         npm run build
 
 -   name: "Executing Node"
