@@ -177,7 +177,7 @@ jobs:
                     name: Ensure back-end infrastructure exists
                     command: |
                         aws cloudformation deploy \
-                          --stack-name khoadd6-devops-backend-stack-${CIRCLE_WORKFLOW_ID:0:7} \
+                          --stack-name "khoadd6-devops-backend-stack-${CIRCLE_WORKFLOW_ID:0:7}" \
                           --template-file .circleci/files/backend.yml \
                           --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
                           --tags project=khoadd6-devops-backend-${CIRCLE_WORKFLOW_ID:0:7}
@@ -186,7 +186,7 @@ jobs:
                     name: Ensure front-end infrastructure exist
                     command: |
                         aws cloudformation deploy \
-                          --stack-name khoadd6-devops-frontend-stack-${CIRCLE_WORKFLOW_ID:0:7} \
+                          --stack-name "khoadd6-devops-frontend-stack-${CIRCLE_WORKFLOW_ID:0:7}" \
                           --template-file .circleci/files/frontend.yml \
                           --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
                           --tags project=khoadd6-devops-frontend-${CIRCLE_WORKFLOW_ID:0:7}
