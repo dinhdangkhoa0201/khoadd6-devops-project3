@@ -366,6 +366,7 @@ jobs:
                         sudo apt install software-properties-common -y
                         sudo add-apt-repository --yes --update ppa:ansible/ansible
                         sudo apt install ansible -y
+                        sudo apt install npm -y
             -   run:
                     name: Install AWS CLI
                     command: |
@@ -373,10 +374,20 @@ jobs:
                         unzip awscliv2.zip
                         sudo ./aws/install
             -   run:
+                    name: Build Backend
+                    command: |
+                        cd backend
+                        npm install
+                        npm run build
+            -   run:
+                    name: Zip Backend
+                    command: |
+                        echo "---------- << Zip Backend Start >> ----------"
+                        tar -C backend -czvf artifact.tar.gz .
+                        echo "---------- << Zip Backend End >> ----------"
+            -   run:
                     name: Deploy Backend
                     command: |
-                        echo "---------- Zip Backend ----------"
-                        tar -C backend -czvf artifact.tar.gz .
                         mkdir -p ~/project/.circleci/ansible/roles/deploy/files
                         cp -p artifact.tar.gz .circleci/ansible/roles/deploy/files
                         cd .circleci/ansible
