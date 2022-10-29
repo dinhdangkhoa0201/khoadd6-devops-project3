@@ -474,6 +474,7 @@ jobs:
                         yum install -y tar gzip
             -   run:
                     name: Update cloudfront distribution
+                    working_directory: ./.circleci/files
                     command: |
                         export oldWorkflowId=$(aws cloudformation list-exports \
                            --query "Exports[?Name==\`WorkflowID\`].Value" \
@@ -482,18 +483,13 @@ jobs:
                         cat ~/project/oldWorkflowId.txt
 
                         aws cloudformation deploy \
-                        --stack-name cloud-front-update-stack-$oldWorkflowId \
-                        --template-file .circleci/files/cloudfront.yml \
-                        --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+                        --stack-name update-cloudfront \
+                        --template-file cloudfront.yml \
+                        --parameter-overrides WorkflowID="khoadd6-devops-${CIRCLE_WORKFLOW_ID:0:7}" \
                         --tags project=khoadd6-devops-project3
 
                         echo Old Workflow Id: "$oldWorkflowId"
                         echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
-            -   persist_to_workspace:
-                    root: ~/
-                    paths:
-                        - project/oldWorkflowID.txt
-            # Here's where you will add some code to rollback on failure
             -   destroy-environment:
                     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
