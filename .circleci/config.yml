@@ -516,10 +516,6 @@ jobs:
                         if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${WorkflowID}" ]]
                         then
                             echo "---------- Delete Stack ----------"
-#                            aws cloudformation delete-stack --stack-name "update-cloudfront"
-#                            aws s3 rm "s3://khoadd6-devops-bucket-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
-#                            aws cloudformation delete-stack --stack-name "khoadd6-devops-frontend-stack-${CIRCLE_WORKFLOW_ID:0:7}"
-#                            aws cloudformation delete-stack --stack-name "khoadd6-devops-backend-stack-${CIRCLE_WORKFLOW_ID:0:7}"
                         else
                             echo "---------- Cannot Cleanup ----------"
                         fi
