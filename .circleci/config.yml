@@ -488,8 +488,6 @@ jobs:
                         --parameter-overrides WorkflowID="khoadd6-devops-${CIRCLE_WORKFLOW_ID:0:7}" \
                         --tags project=khoadd6-devops-project3
 
-                        echo Old Workflow Id: "$oldWorkflowId"
-                        echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
             -   destroy-environment:
                     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -500,32 +498,29 @@ jobs:
         steps:
             # Checkout code from git
             - checkout
-            # attach workspace
-            -   attach_workspace:
-                    at: ~/
             -   run:
                     name: Install dependencies
                     command: |
                         yum install -y tar gzip
             -   run:
-                    name: Get old stack workflow id
+                    name: Fetch OldStack Workflow ID
                     command: |
-                        # your code here
-                        export OldWorkflowID=$(cat ~/project/oldWorkflowID.txt)
+                        export WorkflowID=$(aws cloudformation \
+                                list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                                --no-paginate --output text)
+                        echo WorkflowID: "${WorkflowID}"
+                        echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
                         export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-                            --stack-status-filter CREATE_COMPLETE --no-paginate --output text ))
-                        echo Stack Names: "${STACKS[@]}"
-            -   run:
-                    name: Remove old stacks and files
-                    command: |
-                        if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+                                --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+                        echo Stack names: "${STACKS[@]}"
+                        if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${WorkflowID}" ]]
                         then
-                            aws s3 rm s3://khoadd6-devops-bucket-${OldWorkflowID} --recursive
-                            aws cloudformation delete-stack --stack-name "khoadd6-devops-backend-${OldWorkflowID}"
-                            aws cloudformation delete-stack --stack-name "khoadd6-devops-frontend-${OldWorkflowID}"
-                            echo "---------- [DELETED SUCCESSFULLY 100%] ----------"
+                            echo "---------- Delete Stack ----------"
+                            aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                            aws cloudformation delete-stack --stack-name "khoadd6-devops-frontend-stack-${WorkflowID}"
+                            aws cloudformation delete-stack --stack-name "khoadd6-devops-backend-stack-${WorkflowID}"
                         else
-                            echo "---------- [CLEANUP FAILED] ----------"
+                            echo "---------- Cannot Cleanup ----------"
                         fi
 
 workflows:
