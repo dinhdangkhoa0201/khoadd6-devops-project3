@@ -485,7 +485,7 @@ jobs:
                         aws cloudformation deploy \
                         --stack-name update-cloudfront \
                         --template-file cloudfront.yml \
-                        --parameter-overrides WorkflowID="khoadd6-devops-${CIRCLE_WORKFLOW_ID:0:7}" \
+                        --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
                         --tags project=khoadd6-devops-project3
 
             -   destroy-environment:
