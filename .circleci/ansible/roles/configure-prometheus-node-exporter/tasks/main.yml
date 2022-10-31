@@ -18,6 +18,17 @@
         src: node_exporter.service
         dest: /etc/systemd/system/
 
+-   name: "create prometheus directory"
+    file:
+        path: /etc/prometheus
+        state: directory
+
+-   name: "move file prometheus.yml"
+    become: true
+    copy:
+        src: prometheus.yml
+        dest: /etc/prometheus/
+
 -   name: "enable node_exporter service"
     become: true
     systemd:
